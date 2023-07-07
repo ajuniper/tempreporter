@@ -1,10 +1,9 @@
 // TODO sensor remap file
-#include <WiFi.h>
 #include <mysyslog.h>
+#include <mywifi.h>
 #include <mywebserver.h>
 #include <tempreporter.h>
 #include <webupdater.h>
-#include <mywifi.h>
 
 #include <my_secrets.h>
 
@@ -30,6 +29,8 @@ void setup(){
     UD_init(server);
 }
 
+#ifndef ESP8266
 void loop(){ 
     delay(1000);
 }
+#endif
