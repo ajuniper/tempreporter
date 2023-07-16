@@ -7,6 +7,9 @@
 
 #include <my_secrets.h>
 
+// syslog stuff
+const char * syslog_name = "tempreporter";
+
 // Data wire is plugged TO GPIO 4
 #define ONE_WIRE_BUS 4
 
