@@ -10,9 +10,6 @@
 // syslog stuff
 const char * syslog_name = "tempreporter";
 
-// Data wire is plugged TO GPIO 4
-#define ONE_WIRE_BUS 4
-
 void setup(){
     // start serial port
     Serial.begin(115200);
@@ -26,14 +23,20 @@ void setup(){
     }
 
     // start tempreporter service
-    TR_init(server, ONE_WIRE_BUS);
+    TR_init(server);
 
     // firmware updates
     UD_init(server);
 }
 
-#ifndef ESP8266
 void loop(){ 
+#ifdef ESP8266
+    time_t next = TR_report_data();
+    time_t now = time(NULL);
+    if (next > now) {
+        delay((next - now)*1000);
+    }
+#else
     delay(1000);
-}
 #endif
+}
