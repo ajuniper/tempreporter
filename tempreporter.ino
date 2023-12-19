@@ -4,6 +4,7 @@
 #include <mywebserver.h>
 #include <tempreporter.h>
 #include <webupdater.h>
+#include <myconfig.h>
 
 #include <my_secrets.h>
 
@@ -14,6 +15,7 @@ void setup(){
     // start serial port
     Serial.begin(115200);
 
+    MyCfgInit();
     WIFI_init();
     WS_init("/temperatures");
 
