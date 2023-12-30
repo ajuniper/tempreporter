@@ -5,30 +5,27 @@
 #include <tempreporter.h>
 #include <webupdater.h>
 #include <myconfig.h>
+#include <mytime.h>
 
 #include <my_secrets.h>
-
-// syslog stuff
-const char * syslog_name = "tempreporter";
 
 void setup(){
     // start serial port
     Serial.begin(115200);
+    Serial.println("Starting...");
 
     MyCfgInit();
-    WIFI_init();
+    mytime_setup(MY_TIMEZONE);
+    WIFI_init(NULL,true);
+    SyslogInit("tempreporter");
     WS_init("/temperatures");
-
-    // wait for time to be known
-    while (time(NULL) < 1000000000) {
-        delay(1000);
-    }
 
     // start tempreporter service
     TR_init(server);
 
     // firmware updates
     UD_init(server);
+    Serial.println("ready to go");
 }
 
 void loop(){ 
