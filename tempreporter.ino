@@ -97,16 +97,22 @@ void setup(){
 }
 
 void loop(){ 
+    time_t now = time(NULL);
+    if (now < 1000000000) {
+        delay(1000);
+        return;
+    }
+
     if (next == 0) {
         // first time around
         delay(3000);
     }
-    if (time(NULL) >= next) {
+    if (now >= next) {
         next = TR_report_data();
         Serial.printf("next sample at %d\n",next);
         //syslogf("next sample at %d",next);
     }
-    time_t delaay = next - time(NULL);
+    time_t delaay = next - now;
     // only do deep sleep if pin is pulled low
     if ((sleepPin > -1) && (delaay > 15) && (digitalRead(sleepPin) == 1)) {
         delaay -= startup_time;
